@@ -123,18 +123,19 @@ nav.navbar.bg-dark,
    4. CARDS WIZARD (Con contraste)
    -------------------------------------------------- */
 .card.card-wizard {
-  background-color: #F7EBF0; /* Rosa magenta suave que resalta inmediato */
-  border: 2px solid #E2C2D0;   /* Borde rosa medio */
+  background-color: #FFFFFF !important;
+  border: 2px solid var(--color-marron-purpura-oscuro) !important; /* Borde oscuro bien marcado */
   border-radius: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
   transition: transform var(--transicion), box-shadow var(--transicion), background-color var(--transicion), border-color var(--transicion);
   cursor: pointer;
 }
 
 .card.card-wizard:hover {
   transform: translateY(-4px);
-  background-color: #EBCAD7;
-  border-color: var(--color-magenta);
-  box-shadow: 0 8px 20px rgba(158, 30, 76, 0.2);
+  background-color: #FBF4F7 !important;
+  border-color: var(--color-magenta) !important;
+  box-shadow: 0 8px 20px rgba(158, 30, 76, 0.18) !important;
 }
 
 /* --------------------------------------------------
