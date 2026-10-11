@@ -6,6 +6,8 @@
   --color-marron-purpura-oscuro: #25020F;
   --color-gris-perla: #F7F5F6;
   --color-gris-borde: #E6E1E3;
+  --radio-sm: 8px;
+  --radio-md: 16px;
   --fuente-titulo-principal: 'Playfair Display', Georgia, serif;
   --fuente-cuerpo: 'Atkinson Hyperlegible', system-ui, sans-serif;
   --transicion: .25s ease;
@@ -24,9 +26,12 @@ body {
   font-family: var(--fuente-cuerpo);
 }
 
-/* NAVBAR */
-.navbar {
-  background-color: var(--color-negro) !important;
+/* --------------------------------------------------
+   1. NAVBAR (Sobrescribe Bootstrap usando especificidad)
+   -------------------------------------------------- */
+nav.navbar.bg-dark,
+.navbar-custom {
+  background-color: var(--color-negro);
   border-bottom: 2px solid var(--color-magenta);
 }
 
@@ -61,7 +66,9 @@ body {
   color: #F3E4EA;
 }
 
-/* HERO - Ajustado para primer pantallazo */
+/* --------------------------------------------------
+   2. HERO SECTION
+   -------------------------------------------------- */
 .hero-section {
   background-color: var(--color-gris-perla);
   min-height: calc(100vh - 60px);
@@ -77,90 +84,113 @@ body {
 
 .card-hero {
   cursor: pointer;
-  transition: transform var(--transicion), box-shadow var(--transicion);
+  transition: transform var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .card-hero:hover {
   transform: translateY(-4px);
   box-shadow: 0 8px 20px rgba(158, 30, 76, 0.2);
-  background-color: var(--color-magenta) !important;
+  background-color: var(--color-magenta);
+  color: var(--color-blanco-puro);
 }
 
-/* SECCIÓN DEL MENÚ DINÁMICO */
+/* --------------------------------------------------
+   3. SECCIÓN DEL MENÚ DINÁMICO & NAV-PILLS
+   -------------------------------------------------- */
 .section-title {
   font-family: var(--fuente-titulo-principal);
   font-weight: 700;
 }
 
-.nav-pills .nav-link.active {
-  background-color: var(--color-magenta) !important;
-}
-
+/* Ganamos la especificidad de Bootstrap encadenando las clases */
 .nav-pills .nav-link {
   color: var(--color-marron-purpura-oscuro);
   font-weight: 600;
   border: 1px solid var(--color-gris-borde);
+  background-color: var(--color-blanco-puro);
+  transition: all var(--transicion);
 }
 
-/* CARDS WIZARD */
-.card-wizard {
-  transition: transform var(--transicion), box-shadow var(--transicion), background-color var(--transicion);
+.nav-pills .nav-link.active,
+.nav-pills .show > .nav-link {
+  background-color: var(--color-magenta);
+  border-color: var(--color-magenta);
+  color: var(--color-blanco-puro);
+}
+
+/* --------------------------------------------------
+   4. CARDS WIZARD (Con contraste)
+   -------------------------------------------------- */
+.card.card-wizard {
+  background-color: #F7EBF0; /* Rosa magenta suave que resalta inmediato */
+  border: 2px solid #E2C2D0;   /* Borde rosa medio */
+  border-radius: 16px;
+  transition: transform var(--transicion), box-shadow var(--transicion), background-color var(--transicion), border-color var(--transicion);
   cursor: pointer;
 }
 
-.card-wizard:hover {
+.card.card-wizard:hover {
   transform: translateY(-4px);
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1) !important;
-  background-color: #f0e6ea !important; /* Tono magenta suave de tu paleta */
+  background-color: #EBCAD7;
+  border-color: var(--color-magenta);
+  box-shadow: 0 8px 20px rgba(158, 30, 76, 0.2);
 }
 
-/* Custom selector para las opciones de sabor e ingredientes */
+/* --------------------------------------------------
+   5. CUSTOM SELECTORS (RADIO & CHECKBOX OCULTOS)
+   -------------------------------------------------- */
 .selector-sabor-item {
   width: 100%;
   max-width: 280px;
   margin: 0 auto;
+  position: relative;
 }
 
-/* OCULTAR EL INPUT TRADICIONAL (RADIO Y CHECKBOX) */
+/* Ocultar inputs nativos visualmente sin romper accesibilidad */
 .selector-sabor-item input[type="radio"],
 .selector-sabor-item input[type="checkbox"] {
-  display: none !important;
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
 }
 
-/* Estilo visual de la opción (botón/píldora) */
+/* Estilo visual del botón / píldora */
 .btn-sabor-option {
   display: block;
   width: 100%;
   padding: 0.6rem 1rem;
-  border: 2px solid var(--color-gris-borde, #e0e0e0);
-  border-radius: var(--radio-sm, 8px);
-  background-color: var(--color-blanco-puro, #ffffff);
-  color: var(--color-marron-purpura-oscuro, #2b2b2b);
+  border: 2px solid var(--color-gris-borde);
+  border-radius: var(--radio-sm);
+  background-color: var(--color-blanco-puro);
+  color: var(--color-marron-purpura-oscuro);
   font-weight: 500;
   cursor: pointer;
-  transition: all var(--transicion, 0.2s ease);
+  transition: all var(--transicion);
   text-align: center;
   user-select: none;
 }
 
-/* Efecto Hover */
 .btn-sabor-option:hover {
   border-color: var(--color-magenta);
   background-color: #FBF4F7;
 }
 
-/* Estado SELECCIONADO (Aplica para Radio y Checkbox) */
+/* Estado Seleccionado */
 .selector-sabor-item input[type="radio"]:checked + .btn-sabor-option,
 .selector-sabor-item input[type="checkbox"]:checked + .btn-sabor-option {
   border-color: var(--color-magenta);
   background-color: var(--color-magenta);
-  color: var(--color-blanco-puro, #ffffff);
+  color: var(--color-blanco-puro);
   font-weight: 700;
   box-shadow: 0 4px 10px rgba(158, 30, 76, 0.25);
 }
 
-/* Animación de entrada suave desde abajo */
+/* --------------------------------------------------
+   6. NOTIFICACIONES TOAST
+   -------------------------------------------------- */
 .toast-container .toast {
   transition: transform 0.3s ease, opacity 0.3s ease;
 }

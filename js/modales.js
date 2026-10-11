@@ -72,14 +72,14 @@ function iniciarWizardCrepaWaffle() {
         <div class="col-12">
             <div class="row g-3 justify-content-center">
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="seleccionarTipoCrepa('Crepa')">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="seleccionarTipoCrepa('Crepa')">
                         <div class="fs-1 mb-2">🥞</div>
                         <h5 class="fw-bold m-0">Crepa</h5>
                         <p class="text-muted small m-0 mt-1">Delgada, suave y recién hecha</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="seleccionarTipoCrepa('Waffle')">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="seleccionarTipoCrepa('Waffle')">
                         <div class="fs-1 mb-2">🧇</div>
                         <h5 class="fw-bold m-0">Waffle</h5>
                         <p class="text-muted small m-0 mt-1">Crujiente por fuera, suave por dentro</p>
@@ -106,7 +106,7 @@ function seleccionarTipoCrepa(tipo) {
 
     let htmlBases = basesFiltradas.map((base, idx) => `
         <div class="col-12 col-md-5">
-            <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick='seleccionarBaseCrepa(${JSON.stringify(base)})'>
+            <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick='seleccionarBaseCrepa(${JSON.stringify(base)})'>
                 <h5 class="fw-bold m-0">${base.nombre}</h5>
                 <p class="text-dark fw-bold mt-2 mb-0">$${base.precioBase} MXN</p>
             </div>
@@ -217,7 +217,7 @@ function avanzarPasoExtras() {
                 ${htmlExtras}
             </div>
         </div>
-        <div class="col-12 text-center bg-light p-4 rounded-3 border">
+        <div class="col-12 text-center p-4 rounded-3 border">
             <h5 class="fw-bold mb-2">Resumen: <span class="text-dark">${crepaWizardState.tipo} de ${crepaWizardState.base.nombre}</span></h5>
             <h3 class="fw-bold text-dark mb-3" id="precio-total-wizard-display">$${crepaWizardState.base.precioBase} MXN</h3>
             <button class="btn btn-dark btn-lg rounded-pill px-5 shadow" onclick="finalizarAgregarCrepaAlCarrito()">

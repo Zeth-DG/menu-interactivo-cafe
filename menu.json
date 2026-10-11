@@ -344,9 +344,9 @@
                 },
                 {
                     "id": "pos_6",
-                    "nombre": "Pie",
+                    "nombre": "Pay",
                     "precio": 55,
-                    "descripcion": "Porción de pie artesanal.",
+                    "descripcion": "Porción de pay artesanal.",
                     "opcionesSabores": [
                         "Limón",
                         "Queso"

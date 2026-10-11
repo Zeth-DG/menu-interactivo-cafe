@@ -105,19 +105,19 @@ function mostrarPaso1Bebidas() {
         <div class="col-12">
             <div class="row g-3 justify-content-center">
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="mostrarPaso2Bebidas('Frías')">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarPaso2Bebidas('Frías')">
                         <div class="fs-1 mb-2">❄️</div>
                         <h5 class="fw-bold m-0">Bebidas Frías</h5>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="mostrarPaso2Bebidas('Calientes')">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarPaso2Bebidas('Calientes')">
                         <div class="fs-1 mb-2">☕</div>
                         <h5 class="fw-bold m-0">Bebidas Calientes</h5>
                     </div>
                 </div>
                 <div class="col-12 col-md-4">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('Otras bebidas', null)">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('Otras bebidas', null)">
                         <div class="fs-1 mb-2">🥤</div>
                         <h5 class="fw-bold m-0">Otras Bebidas</h5>
                     </div>
@@ -144,16 +144,16 @@ function mostrarPaso2Bebidas(temperatura) {
         <div class="col-12">
             <div class="row g-3 justify-content-center">
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('${temperatura}', true)">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('${temperatura}', true)">
                         <div class="fs-1 mb-2">☕</div>
                         <h5 class="fw-bold m-0">Con Café</h5>
                         <p class="text-muted small m-0 mt-1">Lattes, Capuchinos, Espresso, etc.</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('${temperatura}', false)">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('${temperatura}', false)">
                         <div class="fs-1 mb-2">🍵</div>
-                        <h5 class="fw-bold m-0">Sin Café / Especiales</h5>
+                        <h5 class="fw-bold m-0">Sin café</h5>
                         <p class="text-muted small m-0 mt-1">Tés, Tisanas, Frappés, Sodas, Smoothies...</p>
                     </div>
                 </div>
@@ -185,7 +185,7 @@ function mostrarResultadosBebidas(subcategoriaNombre, conCafe) {
     let headerDiv = document.createElement("div");
     headerDiv.className = "col-12 mb-4";
     headerDiv.innerHTML = `
-        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 bg-light p-3 rounded-3 border">
+        <div class="d-flex flex-column flex-md-row justify-content-between align-items-start align-items-md-center gap-3 p-3 rounded-3 border">
             <div>
                 <button class="btn btn-sm btn-dark rounded-pill px-3 shadow-sm mb-2" onclick="${accionVolver}">
                     <i class="bi bi-arrow-left me-1"></i> Volver atrás
@@ -225,7 +225,7 @@ function crearTarjetaProducto(item) {
     }
 
     col.innerHTML = `
-        <div class="card h-100 shadow-sm border-0 bg-light">
+        <div class="card h-100 shadow-sm border-0">
             <div class="card-body d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-start mb-2">

@@ -26,7 +26,7 @@ function iniciarWizardEspecialidades() {
     
     let htmlPlatillos = catPlatillos.items.map(item => `
         <div class="col-12 col-md-4">
-            <div class="card h-100 p-3 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick='seleccionarPlatilloEspecialidad(${JSON.stringify(item)})'>
+            <div class="card h-100 p-3 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick='seleccionarPlatilloEspecialidad(${JSON.stringify(item)})'>
                 <h5 class="fw-bold mb-1">${item.nombre}</h5>
                 ${item.descripcion ? `<p class="text-muted small mb-2">${item.descripcion}</p>` : ''}
                 <span class="fw-bold text-dark">$${item.precio} MXN</span>
@@ -121,14 +121,14 @@ function preguntarSiEsPaquete() {
         <div class="col-12">
             <div class="row g-3 justify-content-center">
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="definirPaquete(true)">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="definirPaquete(true)">
                         <div class="fs-1 mb-2">🍽️ + ☕</div>
                         <h5 class="fw-bold m-0">Sí, hacerlo paquete</h5>
                         <p class="text-muted small m-0 mt-1">Añade bebida + fruta + papas por +$45 MXN</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-5">
-                    <div class="card h-100 p-4 text-center border-0 bg-light shadow-sm cursor-pointer card-wizard" onclick="definirPaquete(false)">
+                    <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="definirPaquete(false)">
                         <div class="fs-1 mb-2">🍳</div>
                         <h5 class="fw-bold m-0">Solo el platillo</h5>
                         <p class="text-muted small m-0 mt-1">Ordenar únicamente $${especialidadWizardState.platillo.precio} MXN</p>
@@ -163,7 +163,7 @@ function mostrarPasoComplementosPaquete() {
             <p class="text-muted small">Elige tu bebida y fruta acompañante</p>
         </div>
         
-        <div class="col-12 col-md-8 mx-auto bg-light p-4 rounded-3 border shadow-sm">
+        <div class="col-12 col-md-8 mx-auto p-4 rounded-3 border shadow-sm">
             <!-- Selección de Bebida -->
             <div class="mb-4">
                 <label class="form-label fw-bold text-dark">Elige tu bebida:</label>
