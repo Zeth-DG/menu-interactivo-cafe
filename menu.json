@@ -363,54 +363,42 @@
         {
             "id": "platillos",
             "nombre": "Especialidades",
+            "precioPaquete": 45,
             "items": [
                 {
                     "id": "plat_1",
-                    "nombre": "Chilaquiles",
+                    "nombre": "Chilaquiles verdes",
                     "precio": 90,
-                    "tipoPersonalizacion": "salsa",
-                    "opcionesPersonalizacion": [
-                        "Verdes",
-                        "Rojos",
-                        "Habanero"
-                    ]
+                    "descripcion": "Acompañados con crema, queso y frijoles."
                 },
                 {
                     "id": "plat_2",
-                    "nombre": "Molletes",
+                    "nombre": "Molletes (2 piezas)",
                     "precio": 65,
+                    "descripcion": "2 piezas con frijoles y queso gratinado.",
                     "tipoPersonalizacion": "extras",
                     "opcionesPersonalizacion": [
-                        "Jamón",
-                        "Tocino",
-                        "Chorizo"
+                        "Solos (Sencillos)",
+                        "Con Jamón"
                     ]
                 },
                 {
                     "id": "plat_3",
                     "nombre": "Croissant salado",
                     "precio": 85,
-                    "tipoPersonalizacion": "sabor",
-                    "opcionesPersonalizacion": [
-                        "Jamón con Queso",
-                        "Pavo con Panela"
-                    ]
+                    "descripcion": "Relleno de jamón de pavo y queso."
                 },
                 {
                     "id": "plat_4",
-                    "nombre": "Enchiladas",
+                    "nombre": "Enchiladas gratinadas",
                     "precio": 95,
-                    "tipoPersonalizacion": "salsa",
-                    "opcionesPersonalizacion": [
-                        "Suizas",
-                        "Moles",
-                        "Rojas"
-                    ]
+                    "descripcion": "Rellenas de pollo con salsa suiza especial."
                 },
                 {
                     "id": "plat_5",
                     "nombre": "Huevos al gusto",
                     "precio": 75,
+                    "descripcion": "Acompañados con frijoles refritos.",
                     "tipoPersonalizacion": "preparacion",
                     "opcionesPersonalizacion": [
                         "Estrellados",
@@ -423,11 +411,12 @@
                     "id": "plat_6",
                     "nombre": "Chapata",
                     "precio": 85,
+                    "descripcion": "Pan tipo chapata artesanal caliente.",
                     "tipoPersonalizacion": "sabor",
                     "opcionesPersonalizacion": [
-                        "Atún",
-                        "Jamón Serrano",
-                        "Roast Beef"
+                        "Fajitas de Pollo",
+                        "Pizza Peperoni",
+                        "Hawaiana"
                     ]
                 }
             ]

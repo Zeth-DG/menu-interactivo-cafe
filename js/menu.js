@@ -93,7 +93,6 @@ function abrirModalSabor(item) {
     modal.show();
 }
 
-
 // Wizard de Bebidas - Paso 1
 function mostrarPaso1Bebidas() {
     temperaturaSeleccionadaActual = '';
