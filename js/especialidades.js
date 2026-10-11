@@ -3,7 +3,7 @@ let especialidadWizardState = {
     platillo: null,
     detallePersonalizacion: null,
     esPaquete: false,
-    precioPaqueteExtra: 45, // Costo fijo por hacerlo paquete
+    precioPaqueteExtra: 60, // Costo fijo por hacerlo paquete
     bebidaPaquete: 'Café Americano (Incluido)',
     frutaPaquete: 'Papaya'
 };
@@ -14,7 +14,7 @@ function iniciarWizardEspecialidades() {
         platillo: null,
         detallePersonalizacion: null,
         esPaquete: false,
-        precioPaqueteExtra: 45,
+        precioPaqueteExtra: 60,
         bebidaPaquete: 'Café Americano (Incluido)',
         frutaPaquete: 'Papaya'
     };
@@ -116,7 +116,7 @@ function preguntarSiEsPaquete() {
         </div>
         <div class="col-12 text-center mb-4">
             <h4 class="fw-bold">3. ¿Deseas hacerlo paquete?</h4>
-            <p class="text-muted small">Incluye bebida, fruta de la estación y papas saladas (+$45 MXN)</p>
+            <p class="text-muted small">Incluye bebida, fruta de temporada y papas saladas (+$45 MXN)</p>
         </div>
         <div class="col-12">
             <div class="row g-3 justify-content-center">
@@ -160,17 +160,17 @@ function mostrarPasoComplementosPaquete() {
         </div>
         <div class="col-12 text-center mb-4">
             <h4 class="fw-bold">4. Personaliza los complementos de tu paquete</h4>
-            <p class="text-muted small">Elige tu bebida y fruta acompañante</p>
+            <p class="text-muted small">Elige una bebida y fruta para acompañar.</p>
         </div>
         
         <div class="col-12 col-md-8 mx-auto p-4 rounded-3 border shadow-sm">
             <!-- Selección de Bebida -->
             <div class="mb-4">
-                <label class="form-label fw-bold text-dark">Elige tu bebida:</label>
+                <label class="form-label fw-bold text-dark">Elige una bebida:</label>
                 <select id="select-bebida-paq" class="form-select border-secondary">
-                    <option value="Café Americano">Café Americano (Incluido)</option>
-                    <option value="Refresco">Refresco (Incluido)</option>
-                    <option value="Jugo del Valle">Jugo del Valle (Incluido)</option>
+                    <option value="Café Americano">Café americano</option>
+                    <option value="Refresco">Refresco</option>
+                    <option value="Jugo del Valle">Jugo del Valle</option>
                     <option value="Capuchino (+$20)">Cambiar por Capuchino (+$20 MXN)</option>
                     <option value="Latte (+$20)">Cambiar por Latte (+$20 MXN)</option>
                 </select>
@@ -178,7 +178,7 @@ function mostrarPasoComplementosPaquete() {
 
             <!-- Selección de Fruta -->
             <div class="mb-4">
-                <label class="form-label fw-bold text-dark">Fruta de la estación:</label>
+                <label class="form-label fw-bold text-dark">Fruta de temporada:</label>
                 <div class="row g-2">
                     <div class="col-6">
                         <div class="selector-sabor-item">

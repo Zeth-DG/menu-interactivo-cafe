@@ -374,7 +374,7 @@
                 {
                     "id": "plat_2",
                     "nombre": "Molletes",
-                    "precio": 90,
+                    "precio": 100,
                     "descripcion": "2 piezas con frijoles, queso gratinado y pico de gallo.",
                     "tipoPersonalizacion": "extras",
                     "opcionesPersonalizacion": [
