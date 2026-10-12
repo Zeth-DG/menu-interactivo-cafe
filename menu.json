@@ -254,16 +254,16 @@
                     "items": [
                         {
                             "id": "beb_o_1",
-                            "nombre": "Agua natural",
+                            "nombre": "Agua natural - Sketch & coffee",
                             "precio": 25,
-                            "descripcion": "Botella 500ml.",
+                            "descripcion": "Botella 1 litro.",
                             "tieneCafe": false
                         },
                         {
                             "id": "beb_o_2",
-                            "nombre": "Agua mineral",
+                            "nombre": "Agua mineral - Peñafiel",
                             "precio": 30,
-                            "descripcion": "Botella Perrier o Topo Chico.",
+                            "descripcion": "Botella 296 ml.",
                             "tieneCafe": false
                         },
                         {
@@ -277,15 +277,31 @@
                             "id": "beb_o_4",
                             "nombre": "Refresco",
                             "precio": 38,
-                            "descripcion": "Línea Coca-Cola.",
-                            "tieneCafe": false
+                            "descripcion": "Refresco 335 ml.",
+                            "tieneCafe": false,
+                            "opcionesSabores": [
+                                "Coca-Cola original",
+                                "Coca-Cola light",
+                                "Coca-Cola zero",
+                                "Fanta",
+                                "Sidral Mundet",
+                                "Fresca",
+                                "Jarrito naranja",
+                                "Jarrito piña",
+                                "Jarrito limón"
+                            ]
                         },
                         {
                             "id": "beb_o_5",
                             "nombre": "Jugo Del Valle",
                             "precio": 38,
-                            "descripcion": "Sabor manzana o durazno.",
-                            "tieneCafe": false
+                            "descripcion": "Jugo 355 ml.",
+                            "tieneCafe": false,
+                            "opcionesSabores": [
+                                "Mango",
+                                "Manzana",
+                                "Durazno"
+                            ]
                         },
                         {
                             "id": "beb_o_6",
@@ -356,7 +372,7 @@
                     "id": "pos_7",
                     "nombre": "Croissant dulce",
                     "precio": 110,
-                    "descripcion": "Relleno de chocolate o almendras."
+                    "descripcion": "Relleno con compota de frutos rojos y queso philadelphia."
                 }
             ]
         },
@@ -374,12 +390,20 @@
                 {
                     "id": "plat_2",
                     "nombre": "Molletes",
-                    "precio": 100,
+                    "precio": 80,
                     "descripcion": "2 piezas con frijoles, queso gratinado y pico de gallo.",
                     "tipoPersonalizacion": "extras",
                     "opcionesPersonalizacion": [
-                        "Solos (Sencillos)",
-                        "Con Jamón"
+                        {
+                            "id": "opt_sencillos",
+                            "nombre": "Solos (Sencillos)",
+                            "precioAdicional": 0
+                        },
+                        {
+                            "id": "opt_jamon",
+                            "nombre": "Con Jamón",
+                            "precioAdicional": 20
+                        }
                     ]
                 },
                 {
@@ -442,7 +466,7 @@
                     "tipo": "Waffle"
                 },
                 {
-                    "nombre": "Waffle in gluten",
+                    "nombre": "Waffle sin gluten",
                     "precioBase": 150,
                     "tipo": "Waffle"
                 }

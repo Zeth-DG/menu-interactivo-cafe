@@ -23,7 +23,7 @@ function iniciarWizardEspecialidades() {
     if (!catPlatillos) return;
 
     const contenedor = document.getElementById("menu-contenedor");
-    
+
     let htmlPlatillos = catPlatillos.items.map(item => `
         <div class="col-12 col-md-4">
             <div class="card h-100 p-3 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick='seleccionarPlatilloEspecialidad(${JSON.stringify(item)})'>
@@ -51,7 +51,7 @@ function iniciarWizardEspecialidades() {
 function seleccionarPlatilloEspecialidad(platilloObj) {
     especialidadWizardState.platillo = platilloObj;
 
-    // Si el platillo no requiere elegir variedad (Chilaquiles, Enchiladas, Croissant), avanzamos directo al paquete
+    // Si el platillo no requiere elegir variedad, avanzamos directo al paquete
     if (!platilloObj.opcionesPersonalizacion || platilloObj.opcionesPersonalizacion.length === 0) {
         especialidadWizardState.detallePersonalizacion = null;
         preguntarSiEsPaquete();
@@ -65,14 +65,37 @@ function seleccionarPlatilloEspecialidad(platilloObj) {
     if (platilloObj.tipoPersonalizacion === 'sabor') tituloPersonalizacion = "Elige el sabor de tu chapata";
     if (platilloObj.tipoPersonalizacion === 'extras') tituloPersonalizacion = "Elige la presentación de tus molletes";
 
-    let htmlOpciones = platilloObj.opcionesPersonalizacion.map((op, idx) => `
+    // Mapeamos las opciones considerando que ahora son objetos con .nombre y .precioAdicional
+    // Normalizamos las opciones: si son strings, las convertimos a objetos {nombre, precioAdicional}
+    let htmlOpciones = platilloObj.opcionesPersonalizacion.map((op, idx) => {
+        let opcionObj;
+        if (typeof op === 'string') {
+            // Chapata, Huevos: string plano
+            opcionObj = { nombre: op, precioAdicional: 0 };
+        } else {
+            // Molletes: objeto con nombre y precioAdicional
+            opcionObj = {
+                nombre: op.nombre,
+                precioAdicional: op.precioAdicional || 0
+            };
+        }
+
+        const opString = JSON.stringify(opcionObj);
+        let textoPrecio = opcionObj.precioAdicional > 0
+            ? ` (+$${opcionObj.precioAdicional})`
+            : " (Incluido)";
+
+        return `
         <div class="col-6 col-md-4">
             <div class="selector-sabor-item">
-                <input type="radio" name="opcionPersonalizada" value="${op}" id="op_${idx}" ${idx === 0 ? 'checked' : ''}>
-                <label class="btn-sabor-option text-center" for="op_${idx}">${op}</label>
+                <input type="radio" name="opcionPersonalizada" value='${opString}' id="op_${idx}" ${idx === 0 ? 'checked' : ''}>
+                <label class="btn-sabor-option text-center" for="op_${idx}">
+                    ${opcionObj.nombre} <br><small class="text-muted">${textoPrecio}</small>
+                </label>
             </div>
         </div>
-    `).join('');
+    `;
+    }).join('');
 
     contenedor.innerHTML = `
         <div class="col-12 mb-3">
@@ -82,7 +105,7 @@ function seleccionarPlatilloEspecialidad(platilloObj) {
         </div>
         <div class="col-12 text-center mb-4">
             <h4 class="fw-bold">2. ${tituloPersonalizacion}</h4>
-            <p class="text-muted small">Para tu <strong>${platilloObj.nombre}</strong></p>
+            <p class="text-muted small">Para tu <strong>${platilloObj.nombre}</strong> (Base: $${platilloObj.precio})</p>
         </div>
         <div class="col-12 mb-4">
             <div class="row g-2 justify-content-center">
@@ -99,7 +122,22 @@ function seleccionarPlatilloEspecialidad(platilloObj) {
 
 function guardarPersonalizacionYContinuar() {
     let seleccion = document.querySelector('input[name="opcionPersonalizada"]:checked');
-    especialidadWizardState.detallePersonalizacion = seleccion ? seleccion.value : null;
+
+    if (seleccion) {
+        try {
+            // Parseamos el JSON: ahora siempre será un objeto {nombre, precioAdicional}
+            especialidadWizardState.detallePersonalizacion = JSON.parse(seleccion.value);
+        } catch (e) {
+            // Fallback por si algo sale mal: guardamos el value crudo como nombre
+            especialidadWizardState.detallePersonalizacion = {
+                nombre: seleccion.value,
+                precioAdicional: 0
+            };
+        }
+    } else {
+        especialidadWizardState.detallePersonalizacion = null;
+    }
+
     preguntarSiEsPaquete();
 }
 
@@ -167,14 +205,17 @@ function mostrarPasoComplementosPaquete() {
             <!-- Selección de Bebida -->
             <div class="mb-4">
                 <label class="form-label fw-bold text-dark">Elige una bebida:</label>
-                <select id="select-bebida-paq" class="form-select border-secondary">
+                <select id="select-bebida-paq" class="form-select border-secondary" onchange="actualizarSubopcionesBebida()">
                     <option value="Café Americano">Café americano</option>
-                    <option value="Refresco">Refresco</option>
-                    <option value="Jugo del Valle">Jugo del Valle</option>
+                    <option value="Refresco">Refresco (335 ml)</option>
+                    <option value="Jugo del Valle">Jugo del Valle (355 ml)</option>
                     <option value="Capuchino (+$20)">Cambiar por Capuchino (+$20 MXN)</option>
                     <option value="Latte (+$20)">Cambiar por Latte (+$20 MXN)</option>
                 </select>
             </div>
+
+            <!-- Contenedor dinámico para los sabores de Refresco o Jugo -->
+            <div id="contenedor-sabores-bebida" class="mb-4"></div>
 
             <!-- Selección de Fruta -->
             <div class="mb-4">
@@ -208,6 +249,44 @@ function mostrarPasoComplementosPaquete() {
             </div>
         </div>
     `;
+
+    // Ejecutar una vez al cargar para verificar si el valor por defecto requiere subopciones
+    actualizarSubopcionesBebida();
+}
+
+function actualizarSubopcionesBebida() {
+    const selectBebida = document.getElementById("select-bebida-paq");
+    const contenedorSabores = document.getElementById("contenedor-sabores-bebida");
+    const seleccion = selectBebida.value;
+
+    if (seleccion === "Refresco") {
+        contenedorSabores.innerHTML = `
+            <label class="form-label fw-bold text-dark small">Elige el sabor de tu refresco (335 ml):</label>
+            <div class="row g-2">
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_orig" value="Coca-Cola original" checked><label class="btn-sabor-option text-center" for="ref_orig">Coca-Cola original</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_light" value="Coca-Cola light"><label class="btn-sabor-option text-center" for="ref_light">Coca-Cola light</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_zero" value="Coca-Cola zero"><label class="btn-sabor-option text-center" for="ref_zero">Coca-Cola zero</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_fanta" value="Fanta"><label class="btn-sabor-option text-center" for="ref_fanta">Fanta</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_mundet" value="Sidral mundet"><label class="btn-sabor-option text-center" for="ref_mundet">Sidral mundet</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_fresca" value="Fresca"><label class="btn-sabor-option text-center" for="ref_fresca">Fresca</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_jnar" value="Jarrito naranja"><label class="btn-sabor-option text-center" for="ref_jnar">Jarrito naranja</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_jpin" value="Jarrito piña"><label class="btn-sabor-option text-center" for="ref_jpin">Jarrito piña</label></div></div>
+                <div class="col-6 col-md-4"><div class="selector-sabor-item"><input type="radio" name="saborRefresco" id="ref_jlim" value="Jarrito limón"><label class="btn-sabor-option text-center" for="ref_jlim">Jarrito limón</label></div></div>
+            </div>
+        `;
+    } else if (seleccion === "Jugo del Valle") {
+        contenedorSabores.innerHTML = `
+            <label class="form-label fw-bold text-dark small">Elige el sabor de tu jugo (355 ml):</label>
+            <div class="row g-2">
+                <div class="col-4"><div class="selector-sabor-item"><input type="radio" name="saborJugo" id="jug_mango" value="Mango" checked><label class="btn-sabor-option text-center" for="jug_mango">Mango</label></div></div>
+                <div class="col-4"><div class="selector-sabor-item"><input type="radio" name="saborJugo" id="jug_manzana" value="Manzana"><label class="btn-sabor-option text-center" for="jug_manzana">Manzana</label></div></div>
+                <div class="col-4"><div class="selector-sabor-item"><input type="radio" name="saborJugo" id="jug_durazno" value="Durazno"><label class="btn-sabor-option text-center" for="jug_durazno">Durazno</label></div></div>
+            </div>
+        `;
+    } else {
+        // Si elige café o capuchino, limpia el contenedor de sabores
+        contenedorSabores.innerHTML = "";
+    }
 }
 
 // Finalizar y enviar al Carrito
@@ -216,8 +295,16 @@ function finalizarAgregarEspecialidadAlCarrito() {
     let precioTotal = p.platillo.precio;
     let descripcionDetallada = "";
 
+    // ✅ Manejo correcto del detalle de personalización
     if (p.detallePersonalizacion) {
-        descripcionDetallada += `Opción: ${p.detallePersonalizacion}`;
+        let nombreOpcion = p.detallePersonalizacion.nombre || p.detallePersonalizacion;
+        let precioExtra = p.detallePersonalizacion.precioAdicional || 0;
+        
+        precioTotal += precioExtra;
+        descripcionDetallada += `Opción: ${nombreOpcion}`;
+        if (precioExtra > 0) {
+            descripcionDetallada += ` (+$${precioExtra})`;
+        }
     }
 
     if (p.esPaquete) {
@@ -228,9 +315,20 @@ function finalizarAgregarEspecialidadAlCarrito() {
             precioTotal += 20;
         }
 
+        // ✅ Capturamos el sabor si es Refresco o Jugo
+        let saborBebida = "";
+        if (bebidaSel === "Refresco") {
+            let saborRef = document.querySelector('input[name="saborRefresco"]:checked')?.value;
+            if (saborRef) saborBebida = ` (${saborRef})`;
+        } else if (bebidaSel === "Jugo del Valle") {
+            let saborJug = document.querySelector('input[name="saborJugo"]:checked')?.value;
+            if (saborJug) saborBebida = ` (${saborJug})`;
+        }
+
         let frutaSel = document.querySelector('input[name="frutaPaq"]:checked')?.value || "Papaya";
 
-        descripcionDetallada += (descripcionDetallada ? " | " : "") + `Paquete: ${bebidaSel}, Fruta: ${frutaSel}, Papas saladas`;
+        descripcionDetallada += (descripcionDetallada ? " | " : "") 
+            + `Paquete: ${bebidaSel}${saborBebida}, Fruta: ${frutaSel}, Papas saladas`;
     }
 
     let productoFinal = {

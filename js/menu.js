@@ -8,11 +8,59 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 });
 
+function normalizarMenu(menu) {
+    menu.categorias.forEach(cat => {
+        if (cat.subcategorias) {
+            cat.subcategorias.forEach(sub => {
+                if (Array.isArray(sub.items)) {
+                    let itemsPlanos = [];
+                    sub.items.forEach(item => {
+                        if (Array.isArray(item)) {
+                            // Es un array anidado: lo aplanamos
+                            item.forEach(subItem => itemsPlanos.push(normalizarItem(subItem)));
+                        } else {
+                            itemsPlanos.push(normalizarItem(item));
+                        }
+                    });
+                    sub.items = itemsPlanos;
+                }
+            });
+        } else if (Array.isArray(cat.items)) {
+            let itemsPlanos = [];
+            cat.items.forEach(item => {
+                if (Array.isArray(item)) {
+                    item.forEach(subItem => itemsPlanos.push(normalizarItem(subItem)));
+                } else {
+                    itemsPlanos.push(normalizarItem(item));
+                }
+            });
+            cat.items = itemsPlanos;
+        }
+    });
+    return menu;
+}
+
+function normalizarItem(item) {
+    // Unificar precioBase → precio
+    if (item.precioBase !== undefined && item.precio === undefined) {
+        item.precio = item.precioBase;
+    }
+    // Unificar sabores (array de objetos) → opcionesSabores (array de strings)
+    if (item.sabores && !item.opcionesSabores) {
+        item.opcionesSabores = item.sabores.map(s => 
+            typeof s === 'string' ? s : s.nombre
+        );
+    }
+    return item;
+}
+
 async function cargarMenu() {
     try {
         let respuesta = await fetch('./menu.json');
         if (!respuesta.ok) throw new Error(`Error HTTP: ${respuesta.status}`);
         menuData = await respuesta.json();
+        //Normalizar estructura
+        menuData = normalizarMenu(menuData);
 
         if (!menuData || !Array.isArray(menuData.categorias)) {
             console.error("El formato del JSON no es válido.");
@@ -66,8 +114,9 @@ function renderizarCategoria(categoriaId) {
         iniciarWizardEspecialidades();
     } else {
         if (Array.isArray(categoria.items)) {
+            let esPostre = categoria.id === "postres";
             categoria.items.forEach(item => {
-                contenedor.appendChild(crearTarjetaProducto(item));
+                contenedor.appendChild(crearTarjetaProducto(item, esPostre));
             });
         }
     }
@@ -147,7 +196,7 @@ function mostrarPaso2Bebidas(temperatura) {
                     <div class="card h-100 p-4 text-center border-0 shadow-sm cursor-pointer card-wizard" onclick="mostrarResultadosBebidas('${temperatura}', true)">
                         <div class="fs-1 mb-2">☕</div>
                         <h5 class="fw-bold m-0">Con Café</h5>
-                        <p class="text-muted small m-0 mt-1">Lattes, Capuchinos, Espresso, etc.</p>
+                        <p class="text-muted small m-0 mt-1">Lattes y capuchinos.</p>
                     </div>
                 </div>
                 <div class="col-12 col-md-5">
@@ -204,7 +253,7 @@ function mostrarResultadosBebidas(subcategoriaNombre, conCafe) {
     });
 }
 
-function crearTarjetaProducto(item) {
+function crearTarjetaProducto(item, esPostre = false) {
     let col = document.createElement("div");
     col.className = "col-12 col-md-6 col-lg-4";
 
@@ -224,8 +273,11 @@ function crearTarjetaProducto(item) {
         </div>`;
     }
 
+    // Clase condicional para postres
+    let claseCard = esPostre ? "card h-100 shadow-sm border-0 card-postre" : "card h-100 shadow-sm border-0";
+
     col.innerHTML = `
-        <div class="card h-100 shadow-sm border-0">
+        <div class="${claseCard}">
             <div class="card-body d-flex flex-column justify-content-between">
                 <div>
                     <div class="d-flex justify-content-between align-items-start mb-2">
