@@ -21,7 +21,7 @@ function agregarAlCarrito(item) {
         precioFinal += 45;
         nombreFinal += ` (En paquete)`;
     }
-let productoEnCarrito = {
+    let productoEnCarrito = {
         id: item.id + (checkAdd?.checked ? '_add' : '') + (checkPaq?.checked ? '_paq' : ''),
         nombre: nombreFinal,
         precio: precioFinal,
@@ -36,7 +36,7 @@ let productoEnCarrito = {
     }
 
     guardarYActualizarCarrito();
-    
+
     // Mensaje de éxito
     mostrarToastNotificacion(`¡${nombreFinal} agregado al pedido!`);
 }
@@ -61,10 +61,25 @@ function renderizarModalCarrito() {
     listaContainer.innerHTML = "";
 
     if (carrito.length === 0) {
-        listaContainer.innerHTML = `<p class="text-center text-muted my-3">Tu pedido está vacío.</p>`;
+        listaContainer.innerHTML = `
+        <div class="estado-vacio">
+            <i class="bi bi-cart-x text-muted" style="font-size: 3rem;"></i>
+            <h6 class="fw-bold mt-3 mb-1">Tu pedido está vacío</h6>
+            <p class="text-muted small mb-0">Explora el menú y agrega algo rico.</p>
+        </div>
+    `;
         totalContainer.textContent = "$0 MXN";
+
+        // Deshabilitar el botón "Mostrar al mesero" si no hay items
+        let btnMostrar = document.querySelector('#modalCarrito .btn-cta-magenta');
+        if (btnMostrar) btnMostrar.disabled = true;
+
         return;
     }
+
+    // Si hay items, aseguramos que el botón esté habilitado
+    let btnMostrar = document.querySelector('#modalCarrito .btn-cta-magenta');
+    if (btnMostrar) btnMostrar.disabled = false;
 
     let total = 0;
     carrito.forEach((item, index) => {
@@ -120,13 +135,13 @@ let carritoRespaldo = [];
 
 function vaciarCarrito() {
     if (carrito.length === 0) return;
-    
+
     // Pedir confirmación para evitar accidentes
     if (confirm("¿Estás seguro de que deseas vaciar todo tu pedido?")) {
         carritoRespaldo = [...carrito]; // Guardamos copia de seguridad
         carrito = [];
         guardarYActualizarCarrito();
-        
+
         // Mostrar aviso temporal con opción de deshacer
         mostrarAlertaRestaurar();
     }
@@ -162,7 +177,7 @@ document.getElementById('modalCarrito')?.addEventListener('show.bs.modal', () =>
 function mostrarToastNotificacion(mensaje) {
     let toastEl = document.getElementById('toastAgregarCarrito');
     let toastMensaje = document.getElementById('toastMensaje');
-    
+
     if (toastEl && toastMensaje) {
         toastMensaje.textContent = mensaje;
         let toast = new bootstrap.Toast(toastEl, { delay: 2500 }); // Se oculta tras 2.5 segundos

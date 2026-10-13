@@ -24,7 +24,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark navbar-centrada py-2 sticky-top">
         <div class="container-fluid">
             <!-- Logo a la izquierda -->
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand" href="#hero">
                 <img src="./images/logo-fondo-negro.jpg" alt="logo sketch and coffee" class="brand-logo"
                     style="height: 40px; width: auto;">
             </a>
@@ -38,16 +38,12 @@
 
             <!-- Contenido desplegable -->
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="#hero">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#menu-seccion">Menú</a></li>
-                </ul>
-
-                <!-- Botón de Pedido / Carrito -->
-                <div class="d-flex align-items-center">
+                <!-- Botón de Pedido / Carrito empujado a la derecha -->
+                <div class="d-flex align-items-center ms-auto">
                     <button class="btn btn-outline-light btn-sm rounded-pill px-3 position-relative"
                         data-bs-toggle="modal" data-bs-target="#modalCarrito">
-                        <i class="bi bi-cart3 me-1"></i> Mi Pedido <span id="contador-carrito"
+                        <i class="bi bi-cart3 me-1"></i> Mi Pedido
+                        <span id="contador-carrito"
                             class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">0</span>
                     </button>
                 </div>
@@ -55,64 +51,102 @@
         </div>
     </nav>
 
-    <!-- HERO (Imágenes más grandes y optimizado para el primer pantallazo) -->
+    <!-- HERO (Asimétrico: 1 destacada + 3 secundarias) -->
     <section id="hero" class="container-fluid hero-section text-center d-flex flex-column justify-content-center">
-        <div class="container text-center mb-2">
-            <h1 class="mb-1" style="font-size: clamp(1.6rem, 3.5vw, 2.2rem);">Diseña tu antojo</h1>
-            <p class="mx-auto text-muted mb-3 small">Bebidas, platillos y postres para inspirar y nutrir tus ideas.</p>
+        <div class="container text-center mb-4">
+            <h1 class="mb-2 hero-titulo">Diseña tu antojo</h1>
+
+            <!-- CTA principal -->
+            <a href="#menu-seccion" class="btn btn-dark btn-lg rounded-pill px-5 shadow-sm cta-hero">
+                <i class="bi bi-arrow-down-circle me-2"></i> Ver el menú completo
+            </a>
         </div>
 
         <div class="container">
-            <div class="row g-2 justify-content-center">
+            <div class="row g-3 justify-content-center align-items-stretch">
 
-                <!-- Tarjeta 1: Bebidas -->
-                <div class="col-6 col-md-3 text-center">
-                    <div class="card bg-dark text-white h-100 shadow-sm card-hero"
+                <!-- 🟣 TARJETA DESTACADA: Bebidas -->
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="card bg-dark text-white h-100 shadow-sm card-hero card-hero-destacada"
                         onclick="seleccionarCategoriaDesdeHero('bebidas')">
-                        <img src="./images/bebidas.jpg" class="card-img-top"
-                            alt="imagen latte arte de oso sketch and coffee" style="height: 270px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column justify-content-center py-2">
-                            <h5 class="card-title m-0 fs-6">Bebidas</h5>
+                        <img src="./images/bebidas.jpg" class="card-img-top card-hero-img"
+                            alt="Latte con arte de oso de Sketch and Coffee">
+                        <div class="card-body d-flex flex-column justify-content-end py-3">
+                            <span class="badge bg-danger align-self-start mb-2 badge-destacada">Lo más pedido</span>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="text-start">
+                                    <h5 class="card-title m-0 fs-4">Bebidas</h5>
+                                    <small class="text-white-50">Cafés, frappés, tés y más</small>
+                                </div>
+                                <i class="bi bi-arrow-right-circle fs-4 icono-click"></i>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Tarjeta 2: Especialidades -->
-                <div class="col-6 col-md-3 text-center">
-                    <div class="card bg-dark text-white h-100 shadow-sm card-hero"
-                        onclick="seleccionarCategoriaDesdeHero('platillos')">
-                        <img src="./images/paquetes.jpeg" class="card-img-top" alt="imagen croissant en paquete"
-                            style="height: 270px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column justify-content-center py-2">
-                            <h5 class="card-title m-0 fs-6">Especialidades</h5>
+                <!-- COLUMNA DERECHA: 3 tarjetas apiladas -->
+                <div class="col-12 col-md-6 col-lg-5">
+                    <div class="d-flex flex-column gap-3 h-100">
+
+                        <!-- Platillos -->
+                        <div class="card bg-dark text-white shadow-sm card-hero card-hero-secundaria flex-fill"
+                            onclick="seleccionarCategoriaDesdeHero('platillos')">
+                            <img src="./images/paquetes.jpeg" class="card-hero-img-fondo" alt="Croissant en paquete">
+                            <div class="card-hero-overlay"></div>
+                            <div
+                                class="card-body-hero position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-end">
+                                <div class="text-start">
+                                    <h6 class="card-title m-0">Platillos</h6>
+                                    <small class="text-white-50">Chilaquiles, molletes y más</small>
+                                </div>
+                                <i class="bi bi-arrow-right-circle fs-5 icono-click"></i>
+                            </div>
                         </div>
+
+                        <!-- Crepas y Waffles -->
+                        <div class="card bg-dark text-white shadow-sm card-hero card-hero-secundaria flex-fill"
+                            onclick="seleccionarCategoriaDesdeHero('crepas-waffles')">
+                            <img src="./images/crepas.jpg" class="card-hero-img-fondo"
+                                alt="Crepa de nutella con fresas">
+                            <div class="card-hero-overlay"></div>
+                            <div
+                                class="card-body-hero position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-end">
+                                <div class="text-start">
+                                    <h6 class="card-title m-0">Crepas y waffles</h6>
+                                    <small class="text-white-50">Ármalos a tu gusto</small>
+                                </div>
+                                <i class="bi bi-arrow-right-circle fs-5 icono-click"></i>
+                            </div>
+                        </div>
+
+                        <!-- Postres -->
+                        <div class="card bg-dark text-white shadow-sm card-hero card-hero-secundaria flex-fill"
+                            onclick="seleccionarCategoriaDesdeHero('postres')">
+                            <img src="./images/postres2.jpg" class="card-hero-img-fondo"
+                                alt="Postres de Sketch and Coffee">
+                            <div class="card-hero-overlay"></div>
+                            <div
+                                class="card-body-hero position-absolute bottom-0 start-0 end-0 p-3 d-flex justify-content-between align-items-end">
+                                <div class="text-start">
+                                    <h6 class="card-title m-0">Postres</h6>
+                                    <small class="text-white-50">Panqué, brownie, flan y más</small>
+                                </div>
+                                <i class="bi bi-arrow-right-circle fs-5 icono-click"></i>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <!-- Tarjeta 3: Crepas y waffles -->
-                <div class="col-6 col-md-3 text-center">
-                    <div class="card bg-dark text-white h-100 shadow-sm card-hero"
-                        onclick="seleccionarCategoriaDesdeHero('crepas-waffles')">
-                        <img src="./images/crepas.jpg" class="card-img-top" alt="imagen crepa de nutella"
-                            style="height: 270px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column justify-content-center py-2">
-                            <h5 class="card-title m-0 fs-6">Crepas y Waffles</h5>
-                        </div>
-                    </div>
-                </div>
+            </div>
 
-                <!-- Tarjeta 4: Postres -->
-                <div class="col-6 col-md-3 text-center">
-                    <div class="card bg-dark text-white h-100 shadow-sm card-hero"
-                        onclick="seleccionarCategoriaDesdeHero('postres')">
-                        <img src="./images/postres2.jpg" class="card-img-top" alt="imagen postres de sketch and coffee"
-                            style="height: 270px; object-fit: cover;">
-                        <div class="card-body d-flex flex-column justify-content-center py-2">
-                            <h5 class="card-title m-0 fs-6">Postres</h5>
-                        </div>
-                    </div>
-                </div>
-
+            <!-- Indicador de scroll -->
+            <div class="scroll-indicator text-center mt-4">
+                <a href="#menu-seccion"
+                    class="text-decoration-none text-dark d-inline-flex flex-column align-items-center">
+                    <i class="bi bi-chevron-double-down fs-4"></i>
+                    <span class="small">Desliza para ver el menú</span>
+                </a>
             </div>
         </div>
     </section>
@@ -142,27 +176,44 @@
     <div class="modal fade" id="modalCarrito" tabindex="-1" aria-labelledby="modalCarritoLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="modalCarritoLabel">Resumen de tu Pedido</h5>
+
+                <div class="modal-header border-0 pb-2">
+                    <h5 class="modal-title fw-bold" id="modalCarritoLabel">Resumen de tu Pedido</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
+
+                <div class="modal-body pt-0 pb-2">
                     <div id="lista-carrito" class="list-group mb-3">
-                        <!-- Items agregados -->
+                        <!-- Items agregados dinámicamente -->
                     </div>
-                    <div class="d-flex justify-content-between fw-bold fs-5 px-2">
+                    <div
+                        class="d-flex justify-content-between align-items-center fw-bold fs-5 px-3 py-3 rounded-3 bg-light border">
                         <span>Total estimado:</span>
-                        <span id="total-carrito">$0 MXN</span>
+                        <span id="total-carrito" class="text-dark">$0 MXN</span>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Seguir
-                        viendo</button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="vaciarCarrito()">Vaciar</button>
-                    <button type="button" class="btn btn-success btn-sm"
-                        onclick="alert('¡Pedido anotado! Muestre esta pantalla en barra o a su mesero.')">Mostrar a
-                        Mesero</button>
+
+                <div class="modal-footer border-0 pt-0 pb-3 px-3 flex-column gap-3">
+
+                    <!-- CTA principal en magenta -->
+                    <button type="button" class="btn w-100 rounded-pill py-2 fw-semibold btn-cta-magenta"
+                        onclick="alert('¡Pedido anotado! Muestre esta pantalla en barra o a su mesero.')">
+                        <i class="bi bi-check2-circle me-2"></i> Mostrar a Mesero
+                    </button>
+
+                    <!-- Acciones secundarias como links -->
+                    <div class="d-flex justify-content-between align-items-center w-100">
+                        <button type="button" class="btn btn-link btn-sm text-secondary text-decoration-none p-0"
+                            data-bs-dismiss="modal">
+                            <i class="bi bi-arrow-left me-1"></i> Seguir viendo
+                        </button>
+                        <button type="button" class="btn btn-link btn-sm text-danger text-decoration-none p-0"
+                            onclick="vaciarCarrito()">
+                            <i class="bi bi-trash3 me-1"></i> Vaciar pedido
+                        </button>
+                    </div>
                 </div>
+
             </div>
         </div>
     </div>

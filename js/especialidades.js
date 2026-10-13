@@ -36,7 +36,7 @@ function iniciarWizardEspecialidades() {
 
     contenedor.innerHTML = `
         <div class="col-12 text-center mb-4">
-            <h4 class="fw-bold">1. Elige tu especialidad</h4>
+            <h4 class="fw-bold">1. Elige tu platillo</h4>
             <p class="text-muted small">Selecciona un platillo para comenzar</p>
         </div>
         <div class="col-12">

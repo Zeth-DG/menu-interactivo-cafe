@@ -378,7 +378,7 @@
         },
         {
             "id": "platillos",
-            "nombre": "Especialidades",
+            "nombre": "Platillos",
             "precioPaquete": 60,
             "items": [
                 {
